@@ -4,7 +4,7 @@ export const Welcome4: React.FC = () => {
   return (
     <>
       <div>Welcome4 </div>
-      <Link to={"/welcome/1"}>下一页</Link>
+      <Link to={"/welcome/1"}>下一页 最后一页</Link>
     </>
   );
 };
