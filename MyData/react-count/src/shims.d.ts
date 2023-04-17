@@ -8,5 +8,9 @@ declare module "react" {
     before?: string;
     after?: string;
     shadow?: boolean;
+    bg?: string;
+    w?: string;
+    h?: string;
+    fixed?: boolean;
   }
 }

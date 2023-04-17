@@ -1,13 +1,26 @@
 import { animated, useTransition } from "@react-spring/web";
 import * as React from "react";
-import { ReactNode, useRef } from "react";
-import { useLocation, useOutlet } from "react-router-dom";
+import { ReactNode, useRef, useState } from "react";
+import { Link, useLocation, useOutlet } from "react-router-dom";
+import logo from "../assets/images/logo.svg";
 // const map: Record<string, ReactNode> = {}; //这里使用map会有内存泄漏，当路由不在是welcome，WelcomeLayout组件会销毁，但是map还在js内存中
+
 export const WelcomeLayout: React.FC = () => {
+  const linkMap: Record<string, string> = {
+    "/welcome/1": "/welcome/2",
+    "/welcome/2": "/welcome/3",
+    "/welcome/3": "/welcome/4",
+    "/welcome/4": "/welcome/1",
+  };
+  const [extraStyle, setExtraStyle] = useState<{
+    position: "relative" | "absolute";
+  }>({ position: "relative" });
+
   const location = useLocation();
   const outlet = useOutlet();
   const map = useRef<Record<string, ReactNode>>({});
   map.current[location.pathname] = outlet;
+
   const transitions = useTransition(location.pathname, {
     from: {
       transform:
@@ -17,11 +30,44 @@ export const WelcomeLayout: React.FC = () => {
     },
     enter: { transform: "translateX(0%)" },
     leave: { transform: "translateX(-100%)" },
-    config: { duration: 1000 },
+    config: { duration: 300 },
+    onStart: () => {
+      setExtraStyle({ position: "absolute" });
+    },
+    onRest: () => {
+      setExtraStyle({ position: "relative" });
+    },
   });
-  return transitions((style, pathname) => (
-    <animated.div key={pathname} style={style}>
-      <div style={{ textAlign: "left" }}>{map.current[pathname]}</div>
-    </animated.div>
-  ));
+  return (
+    <div bg="#009812" h-screen flex flex-col items-stretch pb-16px pt-16px>
+      <span fixed text-white top-16px right-16px text-20px>
+        跳过
+      </span>
+      <header text-center shrink-0>
+        <img src={logo} alt="logo" width={"64px"} />
+        <h1 text-32px color="#fff">
+          山竹记账
+        </h1>
+      </header>
+      <main shrink-1 grow-1 relative>
+        {transitions((style, pathname) => (
+          <animated.div
+            key={pathname}
+            style={{ ...style, ...extraStyle }}
+            w="100%"
+            h="100%"
+            p-16px
+            flex
+          >
+            <div grow-1 bg-white flex justify-center items-center rounded-8px>
+              {map.current[pathname]}
+            </div>
+          </animated.div>
+        ))}
+      </main>
+      <footer shrink-0>
+        <Link to={linkMap[location.pathname]}>下一页</Link>
+      </footer>
+    </div>
+  );
 };
