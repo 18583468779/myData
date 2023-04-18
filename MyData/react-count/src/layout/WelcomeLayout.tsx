@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useOutlet } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
 import { useSwipe } from "../lib/useSwipe";
+import { useLocalStore } from "../store/useLocalStore";
 // const map: Record<string, ReactNode> = {}; //这里使用map会有内存泄漏，当路由不在是welcome，WelcomeLayout组件会销毁，但是map还在js内存中
 
 export const WelcomeLayout: React.FC = () => {
@@ -15,6 +16,7 @@ export const WelcomeLayout: React.FC = () => {
   };
   const [extraStyle, setExtraStyle] = useState<{
     position: "relative" | "absolute";
+    top?: number;
   }>({ position: "relative" });
   const nav = useNavigate();
   const location = useLocation();
@@ -22,6 +24,17 @@ export const WelcomeLayout: React.FC = () => {
   const animating = useRef(false);
   const map = useRef<Record<string, ReactNode>>({});
   map.current[location.pathname] = outlet;
+  const main = useRef<HTMLElement>(null);
+  const { direction } = useSwipe(main);
+  useEffect(() => {
+    if (direction === "right") {
+      if (animating.current) {
+        return;
+      }
+      animating.current = true;
+      nav(linkMap[location.pathname]);
+    }
+  }, [direction]);
 
   const transitions = useTransition(location.pathname, {
     from: {
@@ -34,27 +47,31 @@ export const WelcomeLayout: React.FC = () => {
     leave: { transform: "translateX(-100%)" },
     config: { duration: 1000 },
     onStart: () => {
-      setExtraStyle({ position: "absolute" });
+      setExtraStyle({ position: "absolute", top: 0 });
     },
     onRest: () => {
       animating.current = false;
-      setExtraStyle({ position: "relative" });
+      setExtraStyle({ position: "relative", top: 0 });
     },
   });
 
-  const main = useRef<HTMLElement>(null);
-  const { direction } = useSwipe(main);
-  useEffect(() => {
-    if (direction === "right") {
-      if (animating.current) {
-        return;
-      }
-      animating.current = true;
-      nav(linkMap[location.pathname]);
-    }
-  }, [direction]);
+  const { setHasWelcome } = useLocalStore((state) => state);
+
+  const onSkip = () => {
+    setHasWelcome(true);
+    nav("/home");
+  };
   return (
-    <div bg="#009812" h-screen flex flex-col items-stretch pb-16px pt-16px>
+    <div
+      bg="#009812"
+      h-screen
+      flex
+      flex-col
+      items-stretch
+      pb-16px
+      pt-16px
+      overflow="y-hidden"
+    >
       <header text-center shrink-0>
         <img src={logo} alt="logo" width={"64px"} />
         <h1 text-32px color="#fff">
@@ -77,6 +94,11 @@ export const WelcomeLayout: React.FC = () => {
           </animated.div>
         ))}
       </main>
+      <footer>
+        <button text-white text-24px onClick={onSkip}>
+          跳过
+        </button>
+      </footer>
     </div>
   );
 };

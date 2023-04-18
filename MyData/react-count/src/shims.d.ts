@@ -12,5 +12,6 @@ declare module "react" {
     w?: string;
     h?: string;
     fixed?: boolean;
+    overflow?: string;
   }
 }
