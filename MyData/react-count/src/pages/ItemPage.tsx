@@ -9,6 +9,8 @@ import {
 import { TopNav } from "../components/ItemPage/TopNav";
 import styled from "styled-components";
 import { useState } from "react";
+import { useMenuStore } from "../store/useMenuStore";
+import { TopMenu } from "../components/TopMenu/TopMenu";
 export const ItemPage: React.FC = () => {
   const Div = styled.div`
     background: linear-gradient(0deg, #12b696 0%, #56ca71 100%);
@@ -37,6 +39,9 @@ export const ItemPage: React.FC = () => {
   ]);
 
   const [selected, setSelected] = useState<TimeRange>("thisMouth"); //默认的本月
+
+  //
+  const { visible } = useMenuStore((state) => state);
   return (
     <div>
       <Div>
@@ -46,6 +51,7 @@ export const ItemPage: React.FC = () => {
       <ItemsSummary />
       <ItemsList items={items} />
       <AddItemPage />
+      {visible ? <TopMenu /> : ""}
     </div>
   );
 };

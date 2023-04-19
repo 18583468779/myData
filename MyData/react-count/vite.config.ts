@@ -12,6 +12,11 @@ export default defineConfig((env) => {
     define: {
       isDev: command === "serve",
     },
-    plugins: [viteMockServe(), Unocss({}), react(), svgsprites()],
+    plugins: [
+      viteMockServe(),
+      Unocss({}),
+      react(),
+      svgsprites({ noOptimizeList: ["chart", "category", "export", "noty"] }),
+    ],
   };
 });
