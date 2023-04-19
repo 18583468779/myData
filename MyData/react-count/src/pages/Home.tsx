@@ -5,6 +5,7 @@ import pig from "../assets/images/pig.svg";
 import { useNavigate } from "react-router-dom";
 import { usePopup } from "../hooks/usePopup";
 import { useTitle } from "../hooks/useTitle";
+import { AddItemPage } from "../components/AddItemPage";
 export const Home: React.FC = () => {
   useTitle({ message: "主页" });
   const nav = useNavigate();
@@ -33,6 +34,7 @@ export const Home: React.FC = () => {
       <button type="button" mt-106px onClick={onAction}>
         开始记账
       </button>
+      <AddItemPage />
     </div>
   );
 };

@@ -13,5 +13,6 @@ declare module "react" {
     h?: string;
     fixed?: boolean;
     overflow?: string;
+    rounded?: string;
   }
 }

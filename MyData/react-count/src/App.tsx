@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import "./App.css";
-import "./global.scss";
+
 import { useLocalStore } from "./store/useLocalStore";
 
 function App() {
