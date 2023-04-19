@@ -14,5 +14,6 @@ declare module "react" {
     fixed?: boolean;
     overflow?: string;
     rounded?: string;
+    zIndex?: string;
   }
 }

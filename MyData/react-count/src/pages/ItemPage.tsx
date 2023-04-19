@@ -7,14 +7,10 @@ import {
   TimeRangePicker,
 } from "../components/ItemPage/TimeRangePicker";
 import { TopNav } from "../components/ItemPage/TopNav";
-import styled from "styled-components";
 import { useState } from "react";
 import { useMenuStore } from "../store/useMenuStore";
 import { TopMenu } from "../components/TopMenu/TopMenu";
 export const ItemPage: React.FC = () => {
-  const Div = styled.div`
-    background: linear-gradient(0deg, #12b696 0%, #56ca71 100%);
-  `;
   const [items] = useState<Item[]>([
     {
       id: 1,
@@ -44,10 +40,10 @@ export const ItemPage: React.FC = () => {
   const { visible } = useMenuStore((state) => state);
   return (
     <div>
-      <Div>
+      <div bg="linear-gradient(0deg, #12b696 0%, #56ca71 100%);">
         <TopNav />
         <TimeRangePicker selected={selected} setSelected={setSelected} />
-      </Div>
+      </div>
       <ItemsSummary />
       <ItemsList items={items} />
       <AddItemPage />
