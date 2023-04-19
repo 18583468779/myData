@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "virtual:uno.css";
+import "virtual:svgsprites";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router";
 

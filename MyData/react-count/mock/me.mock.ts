@@ -4,7 +4,7 @@ export const meMock: MockMethod[] = [
   {
     url: "/api/v1/me",
     method: "get",
-    statusCode: 404,
+    statusCode: 200,
     response: () => {
       return {
         resource: {

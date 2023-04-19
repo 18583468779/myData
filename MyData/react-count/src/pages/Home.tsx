@@ -3,14 +3,18 @@ import * as React from "react";
 import useSWR from "swr";
 import pig from "../assets/images/pig.svg";
 import { useNavigate } from "react-router-dom";
+import { usePopup } from "../hooks/usePopup";
+import { useTitle } from "../hooks/useTitle";
 export const Home: React.FC = () => {
+  useTitle({ message: "主页" });
   const nav = useNavigate();
   const { data, error, isLoading } = useSWR("/api/v1/me", async (path) => {
     return axios.get<Resource<User>>(path);
   });
-
+  // const { popup } = usePopup({});
+  // console.log(popup);
   if (isLoading) return <div>"Loading..."</div>;
-
+  // if (error) return popup;
   const onAction = () => {
     if (error) {
       console.log(123);
