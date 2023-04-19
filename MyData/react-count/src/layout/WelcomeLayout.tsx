@@ -3,8 +3,9 @@ import * as React from "react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useOutlet } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
-import { useSwipe } from "../lib/useSwipe";
+
 import { useLocalStore } from "../store/useLocalStore";
+import { useSwipe } from "../hooks/useSwipe";
 // const map: Record<string, ReactNode> = {}; //这里使用map会有内存泄漏，当路由不在是welcome，WelcomeLayout组件会销毁，但是map还在js内存中
 
 export const WelcomeLayout: React.FC = () => {

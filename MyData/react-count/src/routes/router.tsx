@@ -4,6 +4,7 @@ import { NotFound } from "../pages/NotFound";
 import { LayOut } from "../layout/LayOut";
 import { WelcomeRoutes } from "./WelcomeRoutes";
 import { Home } from "../pages/Home";
+import { ItemPage } from "../pages/ItemPage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -16,5 +17,9 @@ export const router = createBrowserRouter([
     element: <LayOut />,
     errorElement: <NotFound />,
     children: [WelcomeRoutes],
+  },
+  {
+    path: "/item",
+    element: <ItemPage />,
   },
 ]);

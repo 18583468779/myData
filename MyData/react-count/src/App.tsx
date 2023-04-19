@@ -5,7 +5,6 @@ import { useLocalStore } from "./store/useLocalStore";
 
 function App() {
   const { hasWelcome } = useLocalStore((state) => state);
-  console.log(hasWelcome, "app");
   if (hasWelcome) {
     return <Navigate to={"/home"}></Navigate>;
   } else {
