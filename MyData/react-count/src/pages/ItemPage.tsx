@@ -37,7 +37,7 @@ export const ItemPage: React.FC = () => {
   const [selected, setSelected] = useState<TimeRange>("thisMouth"); //默认的本月
 
   //
-  const { visible } = useMenuStore((state) => state);
+  const { visible, setVisible } = useMenuStore((state) => state);
   return (
     <div>
       <div bg="linear-gradient(0deg, #12b696 0%, #56ca71 100%);">
@@ -47,7 +47,7 @@ export const ItemPage: React.FC = () => {
       <ItemsSummary />
       <ItemsList items={items} />
       <AddItemPage />
-      {visible ? <TopMenu /> : ""}
+      <TopMenu visible={visible} setVisible={setVisible} />
     </div>
   );
 };
