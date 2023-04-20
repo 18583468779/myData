@@ -1,6 +1,14 @@
 type Resource<T> = {
   resource: T;
 };
+interface Resources<T> {
+  resources: T[];
+  pager: {
+    page: number;
+    per_page: number;
+    count: number;
+  };
+}
 
 type User = {
   id: number;

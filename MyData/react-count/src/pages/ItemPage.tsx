@@ -45,7 +45,7 @@ export const ItemPage: React.FC = () => {
         <TimeRangePicker selected={selected} setSelected={setSelected} />
       </div>
       <ItemsSummary />
-      <ItemsList items={items} />
+      <ItemsList />
       <AddItemPage />
       <TopMenu visible={visible} setVisible={setVisible} />
     </div>

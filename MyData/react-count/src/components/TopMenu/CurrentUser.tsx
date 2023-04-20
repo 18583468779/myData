@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface Props {
   className?: string;
 }
@@ -13,7 +15,9 @@ export const CurrentUser: React.FC<Props> = ({ className }) => {
       px-16px
     >
       <h2 text-24px>未登录用户</h2>
-      <div text="#CEA1FF">点击这里登录</div>
+      <Link to={"/sign_in"} text="#CEA1FF">
+        点击这里登录
+      </Link>
     </div>
   );
 };

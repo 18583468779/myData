@@ -1,7 +1,17 @@
-interface Props {
-  items: Item[];
-}
-export const ItemsList: React.FC<Props> = ({ items }) => {
+import axios from "axios";
+import useSWRInfinite from "swr/infinite";
+
+interface Props {}
+const getKey = (pageIndex: number) => {
+  return `/api/v1/items?page=${pageIndex + 1}`; // SWR key
+};
+export const ItemsList: React.FC<Props> = () => {
+  const { data, error, size, setSize } = useSWRInfinite(
+    getKey,
+    async (path) => await axios.post<Resource<Item>>(path)
+  );
+  console.log(data);
+  const items: Item[] = [];
   return (
     <div>
       <ol>
