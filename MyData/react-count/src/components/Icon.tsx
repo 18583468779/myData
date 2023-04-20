@@ -1,7 +1,7 @@
 import * as React from "react";
 type Props = {
-  name: String;
-  className?: String;
+  name: string;
+  className?: string;
   onClick?: () => void;
 };
 export const Icon: React.FC<Props> = (props) => {

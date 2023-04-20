@@ -5,6 +5,7 @@ import { LayOut } from "../layout/LayOut";
 import { WelcomeRoutes } from "./WelcomeRoutes";
 import { Home } from "../pages/Home";
 import { ItemPage } from "../pages/ItemPage";
+import { SignIn } from "../pages/SignIn";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -21,5 +22,9 @@ export const router = createBrowserRouter([
   {
     path: "/item",
     element: <ItemPage />,
+  },
+  {
+    path: "/sign_in",
+    element: <SignIn />,
   },
 ]);
