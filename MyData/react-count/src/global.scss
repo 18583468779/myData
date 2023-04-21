@@ -117,6 +117,11 @@ button {
   }
 }
 
+input:hover {
+  box-shadow: 3px 4px 10px #eeeeee inset;
+  border-color: #009888;
+}
+
 @keyframes ani1 {
   0% {
     transform: scale(0);
