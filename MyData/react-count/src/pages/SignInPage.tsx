@@ -2,18 +2,32 @@ import * as React from "react";
 import { TopNav } from "../components/ItemPage/TopNav";
 import { TopBg } from "../components/TopBg";
 import p1 from "../assets/images/logo.svg";
-import { useCountDown } from "../hooks/useCountDown";
-import { useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 
 export const SignInPage: React.FC = () => {
-  // const [sureUse, setSureSuse];
-  const [count, setCount] = useState<number>(60);
-  const { countDown } = useCountDown(60, false);
+  let [countDown, setCountDown] = useState<number>(60);
+  const timer = useRef<NodeJS.Timer>();
 
   const onSendCode = () => {
-    setCount(60);
+    timer.current = setInterval(() => {
+      if (countDown > 0) {
+        setCountDown(countDown);
+      }
+      countDown -= 1;
+      if (countDown <= 0) {
+        timer.current = undefined;
+      }
+    }, 1000);
+    //发送验证码请求
   };
 
+  useEffect(() => {
+    return () => {
+      timer.current = undefined;
+    };
+  }, []);
+  console.log(timer.current, "timer.current");
   return (
     <div>
       <TopBg>
@@ -63,15 +77,23 @@ export const SignInPage: React.FC = () => {
                   text-12px
                   placeholder="请输入验证码~~"
                 />
-                <button
-                  type="button"
-                  w="120px"
-                  h-40px
-                  text-base
-                  onClick={onSendCode}
-                >
-                  发送 ({count})
-                </button>
+
+                {timer.current ? (
+                  <button type="button" w="120px" h-40px text-base>
+                    发送开始
+                    {timer.current ? <span>({countDown})</span> : <span></span>}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    w="120px"
+                    h-40px
+                    text-base
+                    onClick={onSendCode}
+                  >
+                    发送完成
+                  </button>
+                )}
               </div>
             </div>
           </div>
