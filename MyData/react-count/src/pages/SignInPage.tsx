@@ -4,6 +4,8 @@ import { TopBg } from "../components/TopBg";
 import p1 from "../assets/images/logo.svg";
 
 import { useEffect, useRef, useState } from "react";
+import { Input } from "../components/Input";
+import { Check } from "../lib/check";
 
 export const SignInPage: React.FC = () => {
   let [countDown, setCountDown] = useState<number>(60);
@@ -27,7 +29,29 @@ export const SignInPage: React.FC = () => {
       timer.current = undefined;
     };
   }, []);
-  console.log(timer.current, "timer.current");
+
+  //获取表单信息
+  const [formData, setFormData] = useState<{ email: string; code: string }>({
+    email: "",
+    code: "",
+  });
+  const [formError, setFormError] = useState({ email: [], code: [] });
+  //清空表单信息
+  const clearForm = () => {
+    setFormData({
+      email: "",
+      code: "",
+    });
+  };
+
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    //邮箱验证
+    const check = new Check({ data: formData.email, type: "email" });
+    console.log(check.verification(), check.error);
+    clearForm();
+  };
+
   return (
     <div>
       <TopBg>
@@ -41,41 +65,43 @@ export const SignInPage: React.FC = () => {
           </h1>
         </div>
 
-        <form>
+        <form onSubmit={(e) => onSubmit(e)}>
           <div flex flex-col>
             <label text-16px>邮箱地址</label>
-            <input
+            <Input
               type="text"
-              w="100%"
-              border-2
-              b-color="#009853"
-              b-solid
-              rounded="8px"
-              h-40px
-              mt-5px
-              pl-10px
-              pr-10px
-              text-12px
+              name="email"
+              className="w='100%' border-2 b-color-#009853 b-solid rounded-8px h-40px mt-5px pl-10px pr-10px text-12px"
               placeholder="请输入邮箱地址~~"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
           </div>
           <div mt-20px>
             <div>
               <label text-16px>验证码</label>
               <div flex justify-between items-center>
-                <input
+                <Input
                   type="text"
-                  w="50%"
+                  name="code"
+                  placeholder="请输入验证码~~"
+                  value={formData.code}
+                  onChange={(e) =>
+                    setFormData({ ...formData, code: e.target.value })
+                  }
+                  className="
+                  w='50%'
                   border-2
-                  b-color="#009853"
+                  b-color-#009853
                   b-solid
-                  rounded="8px"
+                  rounded-8px
                   h-40px
                   mt-5px
                   pl-10px
                   pr-10px
-                  text-12px
-                  placeholder="请输入验证码~~"
+                  text-12px"
                 />
 
                 {timer.current ? (
@@ -98,7 +124,9 @@ export const SignInPage: React.FC = () => {
             </div>
           </div>
           <div mt-130px text-center>
-            <button w="100%">登录</button>
+            <button w="100%" type="submit">
+              登录
+            </button>
           </div>
         </form>
       </main>
