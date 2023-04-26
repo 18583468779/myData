@@ -51,7 +51,6 @@ export const SignInPage: React.FC = () => {
     e.preventDefault();
     //邮箱验证
     const checkEmail = new Check({ data: formData.email, type: "email" });
-    console.log(checkEmail.verification(), checkEmail.error);
     //验证码验证(前端)
     const checkCode = new Check({ data: formData.code, type: "code" });
     setFormError({ email: checkEmail.error, code: checkCode.error }); //set error
