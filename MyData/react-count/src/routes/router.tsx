@@ -6,6 +6,7 @@ import { WelcomeRoutes } from "./WelcomeRoutes";
 import { Home } from "../pages/Home";
 import { ItemPage } from "../pages/ItemPage";
 import { SignInPage } from "../pages/SignInPage";
+import { ItemNewPage } from "../pages/ItemNewPage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -26,5 +27,9 @@ export const router = createBrowserRouter([
   {
     path: "/sign_in",
     element: <SignInPage />,
+  },
+  {
+    path: "/item/new",
+    element: <ItemNewPage />,
   },
 ]);
