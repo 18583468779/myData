@@ -35,7 +35,10 @@ export const SignInPage: React.FC = () => {
     email: "",
     code: "",
   });
-  const [formError, setFormError] = useState({ email: [], code: [] });
+  const [formError, setFormError] = useState<{
+    email: string[];
+    code: string[];
+  }>({ email: [], code: [] });
   //清空表单信息
   const clearForm = () => {
     setFormData({
@@ -47,9 +50,15 @@ export const SignInPage: React.FC = () => {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     //邮箱验证
-    const check = new Check({ data: formData.email, type: "email" });
-    console.log(check.verification(), check.error);
-    clearForm();
+    const checkEmail = new Check({ data: formData.email, type: "email" });
+    console.log(checkEmail.verification(), checkEmail.error);
+    //验证码验证(前端)
+    const checkCode = new Check({ data: formData.code, type: "code" });
+    setFormError({ email: checkEmail.error, code: checkCode.error }); //set error
+    if (checkCode.verification() && checkEmail.verification()) {
+      //验证成功（前端），发送请求
+      clearForm();
+    }
   };
 
   return (
@@ -78,6 +87,15 @@ export const SignInPage: React.FC = () => {
                 setFormData({ ...formData, email: e.target.value })
               }
             />
+            <div h-18px>
+              {formError.email ? (
+                <p text-red mt-5px p-l-5px>
+                  {formError.email}
+                </p>
+              ) : (
+                <p></p>
+              )}
+            </div>
           </div>
           <div mt-20px>
             <div>
@@ -105,7 +123,7 @@ export const SignInPage: React.FC = () => {
                 />
 
                 {timer.current ? (
-                  <button type="button" w="120px" h-40px text-base>
+                  <button type="button" w="120px" h-40px text-base disabled>
                     发送开始
                     {timer.current ? <span>({countDown})</span> : <span></span>}
                   </button>
@@ -117,8 +135,17 @@ export const SignInPage: React.FC = () => {
                     text-base
                     onClick={onSendCode}
                   >
-                    发送完成
+                    发送
                   </button>
+                )}
+              </div>
+              <div h-18px>
+                {formError.code ? (
+                  <p text-red mt-5px p-l-5px>
+                    {formError.code}
+                  </p>
+                ) : (
+                  <p></p>
                 )}
               </div>
             </div>

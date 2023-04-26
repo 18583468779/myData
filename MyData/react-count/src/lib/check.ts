@@ -24,6 +24,16 @@ export class Check {
           this.error.push("邮箱格式错误");
         }
         return result;
+      case "code":
+        if (this.data === "") {
+          this.error.push("验证码不能为空");
+          return false;
+        }
+        if (this.data.length != 6) {
+          this.error.push("验证码错误");
+          return false;
+        }
+        return true;
       default:
         break;
     }
